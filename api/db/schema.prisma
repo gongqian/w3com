@@ -1,0 +1,232 @@
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider      = "prisma-client-js"
+  binaryTargets = "native"
+}
+
+// Define your own datamodels here and run `yarn redwood prisma migrate dev`
+// to create migrations for them and apply to your dev DB.
+
+enum MemberLevel {
+  Silver
+  Gold
+  Platum
+}
+
+enum ProductCondition {
+  fair
+  good
+  excellent
+}
+
+enum PriceCategory {
+  normal
+  promotion
+  bulk
+  discount
+  volume
+}
+
+enum CampaignType {
+  PingTuan
+  JieLong
+  BaoMing
+  QianDao
+  WenJuan
+  FaWen
+  ZhaoBiao
+  chuoJiang
+  TongZhi
+}
+
+//Member profile
+model Member {
+  id                Int                @id @default(autoincrement())
+  createdAt         DateTime           @default(now())
+  updatedAt         DateTime?          @updatedAt
+  email             String?            @unique
+  openId            String             @unique
+  name              String?
+  rewardPoints      Int                @default(0)
+  referedById       Int?
+  referedBy         Member?            @relation("ReferedMember", fields: [referedById], references: [id])
+  referals          Member[]           @relation("ReferedMember")
+  level             MemberLevel        @default(Silver)
+  rewardHistory     RewardHistory[]
+  entities          EntityMember[]
+  assignedMember    EntityMember[]     @relation("assignedMember")
+  profile           Profile?
+  pingTuanResponses PingTuanResponse[]
+  entitiesCreated   Entity[]
+  campaigns Campaign[]
+}
+
+model Profile {
+  id       Int    @id @default(autoincrement())
+  member   Member @relation(fields: [memberId], references: [id])
+  memberId Int    @unique // relation scalar field (used in the `@relation` attribute above)
+  //to have more fields
+}
+
+//Reward
+model RewardHistory {
+  id           Int      @id @default(autoincrement())
+  createdAt    DateTime @default(now())
+  source       String
+  rewardPoints Int
+  memberId     Int
+  member       Member   @relation(fields: [memberId], references: [id])
+}
+
+//community Entity
+model Entity {
+  id          Int            @id @default(autoincrement())
+  createdAt   DateTime       @default(now())
+  updatedAt   DateTime?      @updatedAt
+  name        String         @unique
+  description String
+  address     String
+  phone       String
+  isVerified  Boolean
+  logoPath    String
+  members     EntityMember[]
+  products    Product[]
+  createdBy   Member         @relation(fields: [createdById], references: [id])
+  createdById Int
+  campaigns Campaign[]
+}
+
+model EntityMember {
+  member   Member  @relation(fields: [memberId], references: [id])
+  memberId Int // relation scalar field (used in the `@relation` attribute above)
+  entity   Entity? @relation(fields: [entityId], references: [id])
+  entityId Int // relation scalar field (used in the `@relation` attribute above)
+
+  createdAt      DateTime  @default(now())
+  updatedAt      DateTime? @updatedAt
+  note           String
+  isAdmin        Boolean
+  isOwner        Boolean
+  isTracked      Boolean
+  isFavorite     Boolean
+  isContact      Boolean
+  assignedMember Member    @relation("assignedMember", fields: [assignedById], references: [id])
+  assignedById   Int
+
+  @@id([memberId, entityId])
+}
+
+//Product
+model ProductCategory {
+  id                      Int               @id @default(autoincrement())
+  createdAt               DateTime          @default(now())
+  updatedAt               DateTime?         @updatedAt
+  name                    String
+  description             String
+  imageIcon               String
+  subProductCategory      ProductCategory[] @relation("productCategory")
+  parentProductCategory   ProductCategory?  @relation("productCategory", fields: [parentProductCategoryId], references: [id])
+  parentProductCategoryId Int?
+  products                Product[]
+}
+
+model Product {
+  id                Int               @id @default(autoincrement())
+  createdAt         DateTime          @default(now())
+  updatedAt         DateTime?         @updatedAt
+  name              String
+  spec              String
+  condition         ProductCondition  @default(excellent)
+  description       String
+  logoPath          String
+  entity            Entity            @relation(fields: [entityId], references: [id])
+  entityId          Int
+  productCategories ProductCategory[]
+  prices            Price[]
+  productImages     ProductImage[]
+  pingTuanDetails   PingTuanDetail[]
+}
+
+model Price {
+  id            Int           @id @default(autoincrement())
+  createdAt     DateTime      @default(now())
+  updatedAt     DateTime?     @updatedAt
+  price         Decimal
+  validFrom     DateTime
+  validTo       DateTime
+  priceCategory PriceCategory @default(normal)
+  product       Product       @relation(fields: [productId], references: [id])
+  productId     Int
+}
+
+model ProductImage {
+  id          Int       @id @default(autoincrement())
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime? @updatedAt
+  name        String
+  description String
+  imagePath   String
+  product     Product   @relation(fields: [productId], references: [id])
+  productId   Int
+}
+
+//campaign
+
+model CampaignMedia {
+  id          Int       @id @default(autoincrement())
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime? @updatedAt
+  name        String
+  description String
+  imagePath   String
+  campaign    Campaign  @relation(fields: [campaignId], references: [id])
+  campaignId  Int
+}
+
+model Campaign {
+  id                  Int              @id @default(autoincrement())
+  createdAt           DateTime         @default(now())
+  updatedAt           DateTime?        @updatedAt
+  startedAt           DateTime
+  endedAt               DateTime
+  campaignType        CampaignType     @default(PingTuan)
+  visibleToMemberOnly Boolean
+  name                String
+  description         String
+  rule                String
+  imageIcon           String
+  media               CampaignMedia[]
+  pingTuanDetails     PingTuanDetail[]
+  member Member @relation(fields: [createdById], references: [id])
+  createdById Int
+  entity Entity? @relation(fields: [entityId], references: [id])
+  entityId Int?
+}
+
+model PingTuanDetail {
+  id               Int                @id @default(autoincrement())
+  createdAt        DateTime           @default(now())
+  updatedAt        DateTime?          @updatedAt
+  quantity         Int
+  price            Decimal
+  product          Product            @relation(fields: [productId], references: [id])
+  productId        Int
+  campaign         Campaign           @relation(fields: [campaignId], references: [id])
+  campaignId       Int
+  pingTuanResponse PingTuanResponse[]
+}
+
+model PingTuanResponse {
+  id               Int            @id @default(autoincrement())
+  createdAt        DateTime       @default(now())
+  updatedAt        DateTime?      @updatedAt
+  quantity         Int
+  member           Member         @relation(fields: [memberId], references: [id])
+  memberId         Int
+  pingTuanDetail   PingTuanDetail @relation(fields: [pingTuanDetailId], references: [id])
+  pingTuanDetailId Int
+}
