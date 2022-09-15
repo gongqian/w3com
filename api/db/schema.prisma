@@ -43,6 +43,32 @@ enum CampaignType {
   TongZhi
 }
 
+model User {
+  id                  Int                    @id @default(autoincrement())
+  email               String                 @unique
+  hashedPassword      String                 @default("")
+  salt                String                 @default("")
+  resetToken          String?
+  resetTokenExpiresAt DateTime?
+  favoriteMetrics     FavoriteMetricOnUser[]
+}
+
+model FavoriteMetric {
+  id    Int                    @id @default(autoincrement())
+  name  String                 @unique
+  users FavoriteMetricOnUser[]
+}
+
+model FavoriteMetricOnUser {
+  id               Int            @id @default(autoincrement())
+  favoriteMetricId Int
+  favoriteMetric   FavoriteMetric @relation(fields: [favoriteMetricId], references: [id])
+  userId           Int
+  user             User           @relation(fields: [userId], references: [id])
+
+  @@unique([userId, favoriteMetricId])
+}
+
 //Member profile
 model Member {
   id                Int                @id @default(autoincrement())
@@ -55,6 +81,8 @@ model Member {
   referedById       Int?
   referedBy         Member?            @relation("ReferedMember", fields: [referedById], references: [id])
   referals          Member[]           @relation("ReferedMember")
+  // lastEntityId      Int?
+  // lastEntity        Member?            @relation("lastEntity")
   level             MemberLevel        @default(Silver)
   rewardHistory     RewardHistory[]
   entities          EntityMember[]
@@ -62,7 +90,24 @@ model Member {
   profile           Profile?
   pingTuanResponses PingTuanResponse[]
   entitiesCreated   Entity[]
-  campaigns Campaign[]
+  campaigns         Campaign[]
+
+  followedBy Follow[] @relation("following")
+  following  Follow[] @relation("follower")
+}
+
+model Follow {
+  id          Int    @id @default(autoincrement())
+  follower    Member @relation("follower", fields: [followerId], references: [id])
+  followerId  Int
+  following   Member @relation("following", fields: [followingId], references: [id])
+  followingId Int
+
+  createdAt DateTime  @default(now())
+  updatedAt DateTime? @updatedAt
+  note      String
+
+  @@unique([followerId, followingId])
 }
 
 model Profile {
@@ -93,19 +138,20 @@ model Entity {
   phone       String
   isVerified  Boolean
   logoPath    String
-  members     EntityMember[]
-  products    Product[]
+  location    String
   createdBy   Member         @relation(fields: [createdById], references: [id])
   createdById Int
-  campaigns Campaign[]
+  members     EntityMember[]
+  products    Product[]
+  campaigns   Campaign[]
 }
 
 model EntityMember {
-  member   Member  @relation(fields: [memberId], references: [id])
-  memberId Int // relation scalar field (used in the `@relation` attribute above)
-  entity   Entity? @relation(fields: [entityId], references: [id])
-  entityId Int // relation scalar field (used in the `@relation` attribute above)
-
+  id             Int       @id @default(autoincrement())
+  member         Member    @relation(fields: [memberId], references: [id])
+  memberId       Int // relation scalar field (used in the `@relation` attribute above)
+  entity         Entity?   @relation(fields: [entityId], references: [id])
+  entityId       Int // relation scalar field (used in the `@relation` attribute above)
   createdAt      DateTime  @default(now())
   updatedAt      DateTime? @updatedAt
   note           String
@@ -117,38 +163,40 @@ model EntityMember {
   assignedMember Member    @relation("assignedMember", fields: [assignedById], references: [id])
   assignedById   Int
 
-  @@id([memberId, entityId])
+  @@unique([memberId, entityId])
 }
 
 //Product
-model ProductCategory {
-  id                      Int               @id @default(autoincrement())
-  createdAt               DateTime          @default(now())
-  updatedAt               DateTime?         @updatedAt
-  name                    String
-  description             String
-  imageIcon               String
-  subProductCategory      ProductCategory[] @relation("productCategory")
-  parentProductCategory   ProductCategory?  @relation("productCategory", fields: [parentProductCategoryId], references: [id])
-  parentProductCategoryId Int?
-  products                Product[]
+model Category {
+  id          Int       @id @default(autoincrement())
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime? @updatedAt
+  name        String
+  description String
+  imageIcon   String
+
+  subCategory      Category[] @relation("category")
+  parentCategory   Category?  @relation("category", fields: [parentCategoryId], references: [id])
+  parentCategoryId Int?
+
+  products Product[]
 }
 
 model Product {
-  id                Int               @id @default(autoincrement())
-  createdAt         DateTime          @default(now())
-  updatedAt         DateTime?         @updatedAt
-  name              String
-  spec              String
-  condition         ProductCondition  @default(excellent)
-  description       String
-  logoPath          String
-  entity            Entity            @relation(fields: [entityId], references: [id])
-  entityId          Int
-  productCategories ProductCategory[]
-  prices            Price[]
-  productImages     ProductImage[]
-  pingTuanDetails   PingTuanDetail[]
+  id              Int               @id @default(autoincrement())
+  createdAt       DateTime          @default(now())
+  updatedAt       DateTime?         @updatedAt
+  name            String
+  spec            String
+  condition       ProductCondition? @default(excellent)
+  description     String
+  logoPath        String
+  entity          Entity            @relation(fields: [entityId], references: [id])
+  entityId        Int
+  categories      Category[]
+  prices          Price[]
+  productImages   ProductImage[]
+  pingTuanDetails PingTuanDetail[]
 }
 
 model Price {
@@ -192,19 +240,24 @@ model Campaign {
   createdAt           DateTime         @default(now())
   updatedAt           DateTime?        @updatedAt
   startedAt           DateTime
-  endedAt               DateTime
+  endedAt             DateTime
   campaignType        CampaignType     @default(PingTuan)
   visibleToMemberOnly Boolean
   name                String
   description         String
   rule                String
   imageIcon           String
+  ratings             Int
+  trendings           Int
+  views               Int
+  recommends          Int
+  shareds             Int
   media               CampaignMedia[]
   pingTuanDetails     PingTuanDetail[]
-  member Member @relation(fields: [createdById], references: [id])
-  createdById Int
-  entity Entity? @relation(fields: [entityId], references: [id])
-  entityId Int?
+  member              Member           @relation(fields: [createdById], references: [id])
+  createdById         Int
+  entity              Entity?          @relation(fields: [entityId], references: [id])
+  entityId            Int?
 }
 
 model PingTuanDetail {
@@ -229,4 +282,26 @@ model PingTuanResponse {
   memberId         Int
   pingTuanDetail   PingTuanDetail @relation(fields: [pingTuanDetailId], references: [id])
   pingTuanDetailId Int
+}
+
+model Post {
+  id    Int           @id @default(autoincrement())
+  title String
+  tags  TagsOnPosts[]
+}
+
+model Tag {
+  id    Int           @id @default(autoincrement())
+  name  String        @unique
+  posts TagsOnPosts[]
+}
+
+model TagsOnPosts {
+  post      Post     @relation(fields: [postId], references: [id])
+  postId    Int
+  tag       Tag      @relation(fields: [tagId], references: [id])
+  tagId     Int
+  createdAt DateTime @default(now())
+
+  @@id([postId, tagId])
 }
