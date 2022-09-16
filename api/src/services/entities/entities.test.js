@@ -28,7 +28,7 @@ describe('entities', () => {
   scenario('creates a entity', async (scenario) => {
     const result = await createEntity({
       input: {
-        name: 'String7806831',
+        name: 'String1606756',
         description: 'String',
         address: 'String',
         phone: 'String',
@@ -39,7 +39,7 @@ describe('entities', () => {
       },
     })
 
-    expect(result.name).toEqual('String7806831')
+    expect(result.name).toEqual('String1606756')
     expect(result.description).toEqual('String')
     expect(result.address).toEqual('String')
     expect(result.phone).toEqual('String')
@@ -53,10 +53,10 @@ describe('entities', () => {
     const original = await entity({ id: scenario.entity.one.id })
     const result = await updateEntity({
       id: original.id,
-      input: { name: 'String90992702' },
+      input: { name: 'String94667132' },
     })
 
-    expect(result.name).toEqual('String90992702')
+    expect(result.name).toEqual('String94667132')
   })
 
   scenario('deletes a entity', async (scenario) => {

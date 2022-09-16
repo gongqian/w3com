@@ -1,5 +1,5 @@
 export const standard = defineScenario({
-  entityMember: {
+  memberOnEntity: {
     one: {
       data: {
         note: 'String',
@@ -8,8 +8,8 @@ export const standard = defineScenario({
         isTracked: true,
         isFavorite: true,
         isContact: true,
-        member: { create: { openId: 'String1612805' } },
-        assignedMember: { create: { openId: 'String3692953' } },
+        member: { create: { openId: 'String6372981' } },
+        assignedMember: { create: { openId: 'String2629686' } },
       },
     },
 
@@ -21,8 +21,8 @@ export const standard = defineScenario({
         isTracked: true,
         isFavorite: true,
         isContact: true,
-        member: { create: { openId: 'String4938017' } },
-        assignedMember: { create: { openId: 'String4828415' } },
+        member: { create: { openId: 'String8199966' } },
+        assignedMember: { create: { openId: 'String5074853' } },
       },
     },
   },

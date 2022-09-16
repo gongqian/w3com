@@ -28,34 +28,34 @@ describe('campaigns', () => {
   scenario('creates a campaign', async (scenario) => {
     const result = await createCampaign({
       input: {
-        startedAt: '2022-09-15T02:20:03Z',
-        endedAt: '2022-09-15T02:20:03Z',
+        startedAt: '2022-09-16T04:26:02Z',
+        endedAt: '2022-09-16T04:26:02Z',
         visibleToMemberOnly: true,
         name: 'String',
         description: 'String',
         rule: 'String',
         imageIcon: 'String',
-        ratings: 8880903,
-        trendings: 3949211,
-        views: 3642056,
-        recommends: 5265454,
-        shareds: 7638487,
+        ratings: 902444,
+        trendings: 5760639,
+        views: 6601407,
+        recommends: 2337479,
+        shareds: 2600598,
         createdById: scenario.campaign.two.createdById,
       },
     })
 
-    expect(result.startedAt).toEqual('2022-09-15T02:20:03Z')
-    expect(result.endedAt).toEqual('2022-09-15T02:20:03Z')
+    expect(result.startedAt).toEqual('2022-09-16T04:26:02Z')
+    expect(result.endedAt).toEqual('2022-09-16T04:26:02Z')
     expect(result.visibleToMemberOnly).toEqual(true)
     expect(result.name).toEqual('String')
     expect(result.description).toEqual('String')
     expect(result.rule).toEqual('String')
     expect(result.imageIcon).toEqual('String')
-    expect(result.ratings).toEqual(8880903)
-    expect(result.trendings).toEqual(3949211)
-    expect(result.views).toEqual(3642056)
-    expect(result.recommends).toEqual(5265454)
-    expect(result.shareds).toEqual(7638487)
+    expect(result.ratings).toEqual(902444)
+    expect(result.trendings).toEqual(5760639)
+    expect(result.views).toEqual(6601407)
+    expect(result.recommends).toEqual(2337479)
+    expect(result.shareds).toEqual(2600598)
     expect(result.createdById).toEqual(scenario.campaign.two.createdById)
   })
 
@@ -63,10 +63,10 @@ describe('campaigns', () => {
     const original = await campaign({ id: scenario.campaign.one.id })
     const result = await updateCampaign({
       id: original.id,
-      input: { startedAt: '2022-09-16T02:20:03Z' },
+      input: { startedAt: '2022-09-17T04:26:02Z' },
     })
 
-    expect(result.startedAt).toEqual('2022-09-16T02:20:03Z')
+    expect(result.startedAt).toEqual('2022-09-17T04:26:02Z')
   })
 
   scenario('deletes a campaign', async (scenario) => {

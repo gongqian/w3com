@@ -85,8 +85,8 @@ model Member {
   // lastEntity        Member?            @relation("lastEntity")
   level             MemberLevel        @default(Silver)
   rewardHistory     RewardHistory[]
-  entities          EntityMember[]
-  assignedMember    EntityMember[]     @relation("assignedMember")
+  entities          MemberOnEntity[]
+  assignedMember    MemberOnEntity[]   @relation("assignedMember")
   profile           Profile?
   pingTuanResponses PingTuanResponse[]
   entitiesCreated   Entity[]
@@ -129,24 +129,24 @@ model RewardHistory {
 
 //community Entity
 model Entity {
-  id          Int            @id @default(autoincrement())
-  createdAt   DateTime       @default(now())
-  updatedAt   DateTime?      @updatedAt
-  name        String         @unique
+  id          Int              @id @default(autoincrement())
+  createdAt   DateTime         @default(now())
+  updatedAt   DateTime?        @updatedAt
+  name        String           @unique
   description String
   address     String
   phone       String
   isVerified  Boolean
   logoPath    String
   location    String
-  createdBy   Member         @relation(fields: [createdById], references: [id])
+  createdBy   Member           @relation(fields: [createdById], references: [id])
   createdById Int
-  members     EntityMember[]
+  members     MemberOnEntity[]
   products    Product[]
   campaigns   Campaign[]
 }
 
-model EntityMember {
+model MemberOnEntity {
   id             Int       @id @default(autoincrement())
   member         Member    @relation(fields: [memberId], references: [id])
   memberId       Int // relation scalar field (used in the `@relation` attribute above)

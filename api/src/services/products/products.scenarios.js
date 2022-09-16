@@ -8,14 +8,14 @@ export const standard = defineScenario({
         logoPath: 'String',
         entity: {
           create: {
-            name: 'String4487776',
+            name: 'String6199820',
             description: 'String',
             address: 'String',
             phone: 'String',
             isVerified: true,
             logoPath: 'String',
             location: 'String',
-            createdBy: { create: { openId: 'String8955545' } },
+            createdBy: { create: { openId: 'String2280999' } },
           },
         },
       },
@@ -29,14 +29,14 @@ export const standard = defineScenario({
         logoPath: 'String',
         entity: {
           create: {
-            name: 'String6896817',
+            name: 'String2988001',
             description: 'String',
             address: 'String',
             phone: 'String',
             isVerified: true,
             logoPath: 'String',
             location: 'String',
-            createdBy: { create: { openId: 'String2214542' } },
+            createdBy: { create: { openId: 'String8250869' } },
           },
         },
       },

@@ -12,7 +12,7 @@ export const schema = gql`
     location: String!
     createdBy: Member!
     createdById: Int!
-    members: [EntityMember]!
+    members: [MemberOnEntity]!
     products: [Product]!
     campaigns: [Campaign]!
   }

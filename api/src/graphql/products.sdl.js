@@ -5,12 +5,12 @@ export const schema = gql`
     updatedAt: DateTime
     name: String!
     spec: String!
-    condition: ProductCondition!
+    condition: ProductCondition
     description: String!
     logoPath: String!
     entity: Entity!
     entityId: Int!
-    Categories: [Category]!
+    categories: [Category]!
     prices: [Price]!
     productImages: [ProductImage]!
     pingTuanDetails: [PingTuanDetail]!
@@ -30,7 +30,7 @@ export const schema = gql`
   input CreateProductInput {
     name: String!
     spec: String!
-    condition: ProductCondition!
+    condition: ProductCondition
     description: String!
     logoPath: String!
     entityId: Int!

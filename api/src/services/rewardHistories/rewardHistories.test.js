@@ -29,13 +29,13 @@ describe('rewardHistories', () => {
     const result = await createRewardHistory({
       input: {
         source: 'String',
-        rewardPoints: 6825756,
+        rewardPoints: 2324381,
         memberId: scenario.rewardHistory.two.memberId,
       },
     })
 
     expect(result.source).toEqual('String')
-    expect(result.rewardPoints).toEqual(6825756)
+    expect(result.rewardPoints).toEqual(2324381)
     expect(result.memberId).toEqual(scenario.rewardHistory.two.memberId)
   })
 

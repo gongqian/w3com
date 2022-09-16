@@ -22,16 +22,16 @@ describe('prices', () => {
   scenario('creates a price', async (scenario) => {
     const result = await createPrice({
       input: {
-        price: 5454766.953267482,
-        validFrom: '2022-09-15T02:00:19Z',
-        validTo: '2022-09-15T02:00:19Z',
+        price: 350304.1858443079,
+        validFrom: '2022-09-16T04:25:14Z',
+        validTo: '2022-09-16T04:25:14Z',
         productId: scenario.price.two.productId,
       },
     })
 
-    expect(result.price).toEqual(5454766.953267482)
-    expect(result.validFrom).toEqual('2022-09-15T02:00:19Z')
-    expect(result.validTo).toEqual('2022-09-15T02:00:19Z')
+    expect(result.price).toEqual(350304.1858443079)
+    expect(result.validFrom).toEqual('2022-09-16T04:25:14Z')
+    expect(result.validTo).toEqual('2022-09-16T04:25:14Z')
     expect(result.productId).toEqual(scenario.price.two.productId)
   })
 
@@ -39,10 +39,10 @@ describe('prices', () => {
     const original = await price({ id: scenario.price.one.id })
     const result = await updatePrice({
       id: original.id,
-      input: { price: 5632692.858761359 },
+      input: { price: 2917102.2501190435 },
     })
 
-    expect(result.price).toEqual(5632692.858761359)
+    expect(result.price).toEqual(2917102.2501190435)
   })
 
   scenario('deletes a price', async (scenario) => {

@@ -3,16 +3,16 @@ export const standard = defineScenario({
     one: {
       data: {
         source: 'String',
-        rewardPoints: 191117,
-        member: { create: { openId: 'String7671358' } },
+        rewardPoints: 3526464,
+        member: { create: { openId: 'String4832597' } },
       },
     },
 
     two: {
       data: {
         source: 'String',
-        rewardPoints: 4548316,
-        member: { create: { openId: 'String9723616' } },
+        rewardPoints: 8307539,
+        member: { create: { openId: 'String3461606' } },
       },
     },
   },

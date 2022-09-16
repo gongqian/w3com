@@ -103,7 +103,7 @@ CREATE TABLE "Entity" (
 );
 
 -- CreateTable
-CREATE TABLE "EntityMember" (
+CREATE TABLE "MemberOnEntity" (
     "id" SERIAL NOT NULL,
     "memberId" INTEGER NOT NULL,
     "entityId" INTEGER NOT NULL,
@@ -117,7 +117,7 @@ CREATE TABLE "EntityMember" (
     "isContact" BOOLEAN NOT NULL,
     "assignedById" INTEGER NOT NULL,
 
-    CONSTRAINT "EntityMember_pkey" PRIMARY KEY ("id")
+    CONSTRAINT "MemberOnEntity_pkey" PRIMARY KEY ("id")
 );
 
 -- CreateTable
@@ -140,7 +140,7 @@ CREATE TABLE "Product" (
     "updatedAt" TIMESTAMP(3),
     "name" TEXT NOT NULL,
     "spec" TEXT NOT NULL,
-    "condition" "ProductCondition" NOT NULL DEFAULT E'excellent',
+    "condition" "ProductCondition" DEFAULT E'excellent',
     "description" TEXT NOT NULL,
     "logoPath" TEXT NOT NULL,
     "entityId" INTEGER NOT NULL,
@@ -293,7 +293,7 @@ CREATE UNIQUE INDEX "Profile_memberId_key" ON "Profile"("memberId");
 CREATE UNIQUE INDEX "Entity_name_key" ON "Entity"("name");
 
 -- CreateIndex
-CREATE UNIQUE INDEX "EntityMember_memberId_entityId_key" ON "EntityMember"("memberId", "entityId");
+CREATE UNIQUE INDEX "MemberOnEntity_memberId_entityId_key" ON "MemberOnEntity"("memberId", "entityId");
 
 -- CreateIndex
 CREATE UNIQUE INDEX "Tag_name_key" ON "Tag"("name");
@@ -329,13 +329,13 @@ ALTER TABLE "RewardHistory" ADD CONSTRAINT "RewardHistory_memberId_fkey" FOREIGN
 ALTER TABLE "Entity" ADD CONSTRAINT "Entity_createdById_fkey" FOREIGN KEY ("createdById") REFERENCES "Member"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "EntityMember" ADD CONSTRAINT "EntityMember_memberId_fkey" FOREIGN KEY ("memberId") REFERENCES "Member"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE "MemberOnEntity" ADD CONSTRAINT "MemberOnEntity_memberId_fkey" FOREIGN KEY ("memberId") REFERENCES "Member"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "EntityMember" ADD CONSTRAINT "EntityMember_assignedById_fkey" FOREIGN KEY ("assignedById") REFERENCES "Member"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE "MemberOnEntity" ADD CONSTRAINT "MemberOnEntity_assignedById_fkey" FOREIGN KEY ("assignedById") REFERENCES "Member"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "EntityMember" ADD CONSTRAINT "EntityMember_entityId_fkey" FOREIGN KEY ("entityId") REFERENCES "Entity"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE "MemberOnEntity" ADD CONSTRAINT "MemberOnEntity_entityId_fkey" FOREIGN KEY ("entityId") REFERENCES "Entity"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "Category" ADD CONSTRAINT "Category_parentCategoryId_fkey" FOREIGN KEY ("parentCategoryId") REFERENCES "Category"("id") ON DELETE SET NULL ON UPDATE CASCADE;

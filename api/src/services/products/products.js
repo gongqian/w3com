@@ -32,8 +32,8 @@ export const deleteProduct = ({ id }) => {
 export const Product = {
   entity: (_obj, { root }) =>
     db.product.findUnique({ where: { id: root.id } }).entity(),
-  Categories: (_obj, { root }) =>
-    db.product.findUnique({ where: { id: root.id } }).Categories(),
+  categories: (_obj, { root }) =>
+    db.product.findUnique({ where: { id: root.id } }).categories(),
   prices: (_obj, { root }) =>
     db.product.findUnique({ where: { id: root.id } }).prices(),
   productImages: (_obj, { root }) =>

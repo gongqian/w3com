@@ -2,12 +2,12 @@ export const standard = defineScenario({
   pingTuanResponse: {
     one: {
       data: {
-        quantity: 4315824,
-        member: { create: { openId: 'String4992616' } },
+        quantity: 9826161,
+        member: { create: { openId: 'String2111709' } },
         pingTuanDetail: {
           create: {
-            quantity: 7537803,
-            price: 8262985.4995386135,
+            quantity: 9008319,
+            price: 2778684.511440599,
             product: {
               create: {
                 name: 'String',
@@ -16,14 +16,14 @@ export const standard = defineScenario({
                 logoPath: 'String',
                 entity: {
                   create: {
-                    name: 'String822141',
+                    name: 'String3209386',
                     description: 'String',
                     address: 'String',
                     phone: 'String',
                     isVerified: true,
                     logoPath: 'String',
                     location: 'String',
-                    createdBy: { create: { openId: 'String9679160' } },
+                    createdBy: { create: { openId: 'String2251376' } },
                   },
                 },
               },
@@ -31,19 +31,19 @@ export const standard = defineScenario({
 
             campaign: {
               create: {
-                startedAt: '2022-09-15T02:07:27Z',
-                endedAt: '2022-09-15T02:07:27Z',
+                startedAt: '2022-09-16T04:26:45Z',
+                endedAt: '2022-09-16T04:26:45Z',
                 visibleToMemberOnly: true,
                 name: 'String',
                 description: 'String',
                 rule: 'String',
                 imageIcon: 'String',
-                ratings: 4187945,
-                trendings: 7737952,
-                views: 5550772,
-                recommends: 7953630,
-                shareds: 3394852,
-                member: { create: { openId: 'String7064928' } },
+                ratings: 9188977,
+                trendings: 9574985,
+                views: 2339724,
+                recommends: 5501411,
+                shareds: 7204990,
+                member: { create: { openId: 'String6255978' } },
               },
             },
           },
@@ -53,12 +53,12 @@ export const standard = defineScenario({
 
     two: {
       data: {
-        quantity: 7940915,
-        member: { create: { openId: 'String6729025' } },
+        quantity: 615076,
+        member: { create: { openId: 'String118581' } },
         pingTuanDetail: {
           create: {
-            quantity: 2590171,
-            price: 4376503.488952328,
+            quantity: 5023398,
+            price: 2301042.048623505,
             product: {
               create: {
                 name: 'String',
@@ -67,14 +67,14 @@ export const standard = defineScenario({
                 logoPath: 'String',
                 entity: {
                   create: {
-                    name: 'String4508668',
+                    name: 'String5062159',
                     description: 'String',
                     address: 'String',
                     phone: 'String',
                     isVerified: true,
                     logoPath: 'String',
                     location: 'String',
-                    createdBy: { create: { openId: 'String4775642' } },
+                    createdBy: { create: { openId: 'String2589662' } },
                   },
                 },
               },
@@ -82,19 +82,19 @@ export const standard = defineScenario({
 
             campaign: {
               create: {
-                startedAt: '2022-09-15T02:07:27Z',
-                endedAt: '2022-09-15T02:07:27Z',
+                startedAt: '2022-09-16T04:26:45Z',
+                endedAt: '2022-09-16T04:26:45Z',
                 visibleToMemberOnly: true,
                 name: 'String',
                 description: 'String',
                 rule: 'String',
                 imageIcon: 'String',
-                ratings: 9041285,
-                trendings: 4281957,
-                views: 48324,
-                recommends: 2384296,
-                shareds: 8344596,
-                member: { create: { openId: 'String3934268' } },
+                ratings: 3770938,
+                trendings: 2037546,
+                views: 519196,
+                recommends: 1343695,
+                shareds: 2740138,
+                member: { create: { openId: 'String7510289' } },
               },
             },
           },

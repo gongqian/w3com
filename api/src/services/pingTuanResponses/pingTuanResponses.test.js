@@ -30,13 +30,13 @@ describe('pingTuanResponses', () => {
   scenario('creates a pingTuanResponse', async (scenario) => {
     const result = await createPingTuanResponse({
       input: {
-        quantity: 5054935,
+        quantity: 3891969,
         memberId: scenario.pingTuanResponse.two.memberId,
         pingTuanDetailId: scenario.pingTuanResponse.two.pingTuanDetailId,
       },
     })
 
-    expect(result.quantity).toEqual(5054935)
+    expect(result.quantity).toEqual(3891969)
     expect(result.memberId).toEqual(scenario.pingTuanResponse.two.memberId)
     expect(result.pingTuanDetailId).toEqual(
       scenario.pingTuanResponse.two.pingTuanDetailId
@@ -50,10 +50,10 @@ describe('pingTuanResponses', () => {
 
     const result = await updatePingTuanResponse({
       id: original.id,
-      input: { quantity: 9272478 },
+      input: { quantity: 5074697 },
     })
 
-    expect(result.quantity).toEqual(9272478)
+    expect(result.quantity).toEqual(5074697)
   })
 
   scenario('deletes a pingTuanResponse', async (scenario) => {

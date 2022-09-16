@@ -2,8 +2,8 @@ export const standard = defineScenario({
   pingTuanDetail: {
     one: {
       data: {
-        quantity: 7454652,
-        price: 7062345.199867422,
+        quantity: 6878481,
+        price: 7341108.247933934,
         product: {
           create: {
             name: 'String',
@@ -12,14 +12,14 @@ export const standard = defineScenario({
             logoPath: 'String',
             entity: {
               create: {
-                name: 'String8568864',
+                name: 'String2081472',
                 description: 'String',
                 address: 'String',
                 phone: 'String',
                 isVerified: true,
                 logoPath: 'String',
                 location: 'String',
-                createdBy: { create: { openId: 'String6179511' } },
+                createdBy: { create: { openId: 'String5368498' } },
               },
             },
           },
@@ -27,19 +27,19 @@ export const standard = defineScenario({
 
         campaign: {
           create: {
-            startedAt: '2022-09-15T02:07:11Z',
-            endedAt: '2022-09-15T02:07:11Z',
+            startedAt: '2022-09-16T04:26:24Z',
+            endedAt: '2022-09-16T04:26:24Z',
             visibleToMemberOnly: true,
             name: 'String',
             description: 'String',
             rule: 'String',
             imageIcon: 'String',
-            ratings: 377201,
-            trendings: 2378443,
-            views: 5226175,
-            recommends: 4984111,
-            shareds: 9681256,
-            member: { create: { openId: 'String7212294' } },
+            ratings: 8408065,
+            trendings: 2026151,
+            views: 8027129,
+            recommends: 120582,
+            shareds: 7557424,
+            member: { create: { openId: 'String2389169' } },
           },
         },
       },
@@ -47,8 +47,8 @@ export const standard = defineScenario({
 
     two: {
       data: {
-        quantity: 5340181,
-        price: 8831177.273676438,
+        quantity: 5567884,
+        price: 9893527.813279811,
         product: {
           create: {
             name: 'String',
@@ -57,14 +57,14 @@ export const standard = defineScenario({
             logoPath: 'String',
             entity: {
               create: {
-                name: 'String1004131',
+                name: 'String2304295',
                 description: 'String',
                 address: 'String',
                 phone: 'String',
                 isVerified: true,
                 logoPath: 'String',
                 location: 'String',
-                createdBy: { create: { openId: 'String4490846' } },
+                createdBy: { create: { openId: 'String7548859' } },
               },
             },
           },
@@ -72,19 +72,19 @@ export const standard = defineScenario({
 
         campaign: {
           create: {
-            startedAt: '2022-09-15T02:07:11Z',
-            endedAt: '2022-09-15T02:07:11Z',
+            startedAt: '2022-09-16T04:26:24Z',
+            endedAt: '2022-09-16T04:26:24Z',
             visibleToMemberOnly: true,
             name: 'String',
             description: 'String',
             rule: 'String',
             imageIcon: 'String',
-            ratings: 3563532,
-            trendings: 2238083,
-            views: 8300882,
-            recommends: 2226591,
-            shareds: 4915483,
-            member: { create: { openId: 'String1857373' } },
+            ratings: 4069557,
+            trendings: 8751635,
+            views: 5119990,
+            recommends: 7218357,
+            shareds: 1772376,
+            member: { create: { openId: 'String8468053' } },
           },
         },
       },

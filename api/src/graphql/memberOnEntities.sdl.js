@@ -1,5 +1,5 @@
 export const schema = gql`
-  type EntityMember {
+  type MemberOnEntity {
     id: Int!
     member: Member!
     memberId: Int!
@@ -18,11 +18,11 @@ export const schema = gql`
   }
 
   type Query {
-    entityMembers: [EntityMember!]! @requireAuth
-    entityMember(id: Int!): EntityMember @requireAuth
+    memberOnEntities: [MemberOnEntity!]! @requireAuth
+    memberOnEntity(id: Int!): MemberOnEntity @requireAuth
   }
 
-  input CreateEntityMemberInput {
+  input CreateMemberOnEntityInput {
     memberId: Int!
     entityId: Int!
     note: String!
@@ -34,7 +34,7 @@ export const schema = gql`
     assignedById: Int!
   }
 
-  input UpdateEntityMemberInput {
+  input UpdateMemberOnEntityInput {
     memberId: Int
     entityId: Int
     note: String
@@ -47,12 +47,12 @@ export const schema = gql`
   }
 
   type Mutation {
-    createEntityMember(input: CreateEntityMemberInput!): EntityMember!
+    createMemberOnEntity(input: CreateMemberOnEntityInput!): MemberOnEntity!
       @requireAuth
-    updateEntityMember(
+    updateMemberOnEntity(
       id: Int!
-      input: UpdateEntityMemberInput!
-    ): EntityMember! @requireAuth
-    deleteEntityMember(id: Int!): EntityMember! @requireAuth
+      input: UpdateMemberOnEntityInput!
+    ): MemberOnEntity! @requireAuth
+    deleteMemberOnEntity(id: Int!): MemberOnEntity! @requireAuth
   }
 `

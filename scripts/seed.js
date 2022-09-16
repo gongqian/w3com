@@ -440,6 +440,63 @@ export default async () => {
           },
         },
       }),
+      await db.Product.create({
+        data: {
+          name: 'Prod 3',
+          spec: 'Spec 3',
+          condition: 'excellent',
+          description: 'Product Description',
+          logoPath: 'logo.svg',
+          entity: {
+            connect: { id: 2 },
+          },
+          categories: {
+            connect: [
+              {
+                id: 1,
+              },
+              {
+                id: 2,
+              },
+            ],
+          },
+          prices: {
+            create: [
+              {
+                price: 8.98,
+                validFrom: new Date(),
+                validTo: new Date(),
+                priceCategory: 'normal',
+              },
+              {
+                price: 1.0,
+                validFrom: new Date(),
+                validTo: new Date(),
+                priceCategory: 'promotion',
+              },
+            ],
+          },
+          productImages: {
+            create: [
+              {
+                name: 'image 3',
+                description: 'image desc1',
+                imagePath: '/path.svg',
+              },
+              {
+                name: 'image 5',
+                description: 'image desc1',
+                imagePath: '/path.svg',
+              },
+              {
+                name: 'image 8',
+                description: 'image desc1',
+                imagePath: '/path.svg',
+              },
+            ],
+          },
+        },
+      }),
     ])
 
     await Promise.all([

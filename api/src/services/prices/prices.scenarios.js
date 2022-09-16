@@ -2,9 +2,9 @@ export const standard = defineScenario({
   price: {
     one: {
       data: {
-        price: 9957054.962985475,
-        validFrom: '2022-09-15T02:00:19Z',
-        validTo: '2022-09-15T02:00:19Z',
+        price: 2969392.377829243,
+        validFrom: '2022-09-16T04:25:14Z',
+        validTo: '2022-09-16T04:25:14Z',
         product: {
           create: {
             name: 'String',
@@ -13,14 +13,14 @@ export const standard = defineScenario({
             logoPath: 'String',
             entity: {
               create: {
-                name: 'String3968532',
+                name: 'String3126805',
                 description: 'String',
                 address: 'String',
                 phone: 'String',
                 isVerified: true,
                 logoPath: 'String',
                 location: 'String',
-                createdBy: { create: { openId: 'String7460895' } },
+                createdBy: { create: { openId: 'String4277785' } },
               },
             },
           },
@@ -30,9 +30,9 @@ export const standard = defineScenario({
 
     two: {
       data: {
-        price: 5217375.342281581,
-        validFrom: '2022-09-15T02:00:19Z',
-        validTo: '2022-09-15T02:00:19Z',
+        price: 5594916.5431884285,
+        validFrom: '2022-09-16T04:25:14Z',
+        validTo: '2022-09-16T04:25:14Z',
         product: {
           create: {
             name: 'String',
@@ -41,14 +41,14 @@ export const standard = defineScenario({
             logoPath: 'String',
             entity: {
               create: {
-                name: 'String2314944',
+                name: 'String9244198',
                 description: 'String',
                 address: 'String',
                 phone: 'String',
                 isVerified: true,
                 logoPath: 'String',
                 location: 'String',
-                createdBy: { create: { openId: 'String6051176' } },
+                createdBy: { create: { openId: 'String6406304' } },
               },
             },
           },
