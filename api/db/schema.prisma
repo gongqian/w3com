@@ -23,77 +23,93 @@ enum ProductCondition {
   excellent
 }
 
-enum PriceCategory {
-  normal
-  promotion
-  bulk
-  discount
-  volume
+// enum PriceCategory {
+//   normal
+//   promotional
+//   bulk
+//   clearance
+//   closeout
+// }
+
+enum CategoryClassifier {
+  business
+  pricing
+  product
 }
 
-enum CampaignType {
-  PingTuan
-  JieLong
-  BaoMing
-  QianDao
-  WenJuan
-  FaWen
-  ZhaoBiao
-  chuoJiang
-  TongZhi
+enum DigitalAssetType {
+  image
+  video
 }
 
-model User {
-  id                  Int                    @id @default(autoincrement())
-  email               String                 @unique
-  hashedPassword      String                 @default("")
-  salt                String                 @default("")
-  resetToken          String?
-  resetTokenExpiresAt DateTime?
-  favoriteMetrics     FavoriteMetricOnUser[]
-}
+// enum CampaignType {
+//   PingTuan
+//   JieLong
+//   BaoMing
+//   QianDao
+//   WenJuan
+//   FaWen
+//   ZhaoBiao
+//   chuoJiang
+//   TongZhi
+// }
 
-model FavoriteMetric {
-  id    Int                    @id @default(autoincrement())
-  name  String                 @unique
-  users FavoriteMetricOnUser[]
-}
+// model User {
+//   id                  Int                    @id @default(autoincrement())
+//   email               String                 @unique
+//   hashedPassword      String                 @default("")
+//   salt                String                 @default("")
+//   resetToken          String?
+//   resetTokenExpiresAt DateTime?
+//   favoriteMetrics     FavoriteMetricOnUser[]
+// }
 
-model FavoriteMetricOnUser {
-  id               Int            @id @default(autoincrement())
-  favoriteMetricId Int
-  favoriteMetric   FavoriteMetric @relation(fields: [favoriteMetricId], references: [id])
-  userId           Int
-  user             User           @relation(fields: [userId], references: [id])
+// model FavoriteMetric {
+//   id    Int                    @id @default(autoincrement())
+//   name  String                 @unique
+//   users FavoriteMetricOnUser[]
+// }
 
-  @@unique([userId, favoriteMetricId])
-}
+// model FavoriteMetricOnUser {
+//   id               Int            @id @default(autoincrement())
+//   favoriteMetricId Int
+//   favoriteMetric   FavoriteMetric @relation(fields: [favoriteMetricId], references: [id])
+//   userId           Int
+//   user             User           @relation(fields: [userId], references: [id])
+
+//   @@unique([userId, favoriteMetricId])
+// }
 
 //Member profile
 model Member {
-  id                Int                @id @default(autoincrement())
-  createdAt         DateTime           @default(now())
-  updatedAt         DateTime?          @updatedAt
-  email             String?            @unique
-  openId            String             @unique
-  name              String?
-  rewardPoints      Int                @default(0)
-  referedById       Int?
-  referedBy         Member?            @relation("ReferedMember", fields: [referedById], references: [id])
-  referals          Member[]           @relation("ReferedMember")
-  // lastEntityId      Int?
-  // lastEntity        Member?            @relation("lastEntity")
-  level             MemberLevel        @default(Silver)
-  rewardHistory     RewardHistory[]
-  entities          MemberOnEntity[]
-  assignedMember    MemberOnEntity[]   @relation("assignedMember")
-  profile           Profile?
-  pingTuanResponses PingTuanResponse[]
-  entitiesCreated   Entity[]
-  campaigns         Campaign[]
+  id           Int         @id @default(autoincrement())
+  displayId    String      @unique @db.VarChar(100)
+  createdAt    DateTime    @default(now())
+  updatedAt    DateTime?   @updatedAt
+  email        String?     @unique @db.VarChar(50)
+  openId       String      @unique @db.VarChar(30)
+  name         String?     @db.VarChar(50)
+  rewardPoints Int         @default(0)
+  level        MemberLevel @default(Silver)
 
-  followedBy Follow[] @relation("following")
-  following  Follow[] @relation("follower")
+  profile Profile?
+
+  rewardHistory RewardHistory[]
+
+  campaigns Campaign[]
+
+  referedByMemberId Int?
+  referedByMember   Member?  @relation("ReferedMember", fields: [referedByMemberId], references: [id])
+  referredMembers   Member[] @relation("ReferedMember")
+  followedMembers   Follow[] @relation("follower")
+  followingMembers  Follow[] @relation("following")
+
+  lastEntityId      Int?
+  lastEntityVisited Entity?  @relation("lastEntity", fields: [lastEntityId], references: [id])
+  createdEntities   Entity[] @relation("createdBy")
+
+  entities                MemberOnEntity[]
+  entitiesInvitedByMember MemberOnEntity[] @relation("invitedByMember")
 }
 
 model Follow {
@@ -105,7 +121,7 @@ model Follow {
 
   createdAt DateTime  @default(now())
   updatedAt DateTime? @updatedAt
-  note      String
+  note      String?   @db.VarChar(100)
 
   @@unique([followerId, followingId])
 }
@@ -121,7 +137,7 @@ model Profile {
 model RewardHistory {
   id           Int      @id @default(autoincrement())
   createdAt    DateTime @default(now())
-  source       String
+  source       String   @db.VarChar(50)
   rewardPoints Int
   memberId     Int
   member       Member   @relation(fields: [memberId], references: [id])
@@ -129,41 +145,48 @@ model RewardHistory {
 
 //community Entity
 model Entity {
-  id          Int              @id @default(autoincrement())
-  createdAt   DateTime         @default(now())
-  updatedAt   DateTime?        @updatedAt
-  name        String           @unique
-  description String
-  address     String
-  phone       String
+  id          Int       @id @default(autoincrement())
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime? @updatedAt
+  name        String    @unique @db.VarChar(100)
+  description String    @db.VarChar(250)
+  address     String    @db.VarChar(100)
+  phone       String    @db.VarChar(12)
   isVerified  Boolean
-  logoPath    String
-  location    String
-  createdBy   Member           @relation(fields: [createdById], references: [id])
-  createdById Int
-  members     MemberOnEntity[]
-  products    Product[]
-  campaigns   Campaign[]
+  logoPath    String    @db.VarChar(100)
+  location    String    @db.VarChar(100)
+
+  products Product[]
+
+  campaigns Campaign[]
+
+  createdByMember      Member             @relation("createdBy", fields: [createdByMemberId], references: [id])
+  createdByMemberId    Int
+  members              MemberOnEntity[]
+  lastVisitedByMembers Member[]           @relation("lastEntity")
+  categories           CategoryOnEntity[]
 }
 
 model MemberOnEntity {
-  id             Int       @id @default(autoincrement())
-  member         Member    @relation(fields: [memberId], references: [id])
-  memberId       Int // relation scalar field (used in the `@relation` attribute above)
-  entity         Entity?   @relation(fields: [entityId], references: [id])
-  entityId       Int // relation scalar field (used in the `@relation` attribute above)
-  createdAt      DateTime  @default(now())
-  updatedAt      DateTime? @updatedAt
-  note           String
-  isAdmin        Boolean
-  isOwner        Boolean
-  isTracked      Boolean
-  isFavorite     Boolean
-  isContact      Boolean
-  assignedMember Member    @relation("assignedMember", fields: [assignedById], references: [id])
-  assignedById   Int
+  // id       Int     @id @default(autoincrement())
+  member   Member @relation(fields: [memberId], references: [id])
+  memberId Int // relation scalar field (used in the `@relation` attribute above)
+  entity   Entity @relation(fields: [entityId], references: [id])
+  entityId Int // relation scalar field (used in the `@relation` attribute above)
 
-  @@unique([memberId, entityId])
+  createdAt  DateTime  @default(now())
+  updatedAt  DateTime? @updatedAt
+  note       String?   @db.VarChar(100)
+  isAdmin    Boolean   @default(false)
+  isOwner    Boolean   @default(false)
+  isTracked  Boolean   @default(false)
+  isFavorite Boolean   @default(false)
+  isContact  Boolean   @default(false)
+
+  invitedByMember   Member? @relation("invitedByMember", fields: [invitedByMemberId], references: [id])
+  invitedByMemberId Int?
+
+  @@id([memberId, entityId])
 }
 
 //Product
@@ -171,137 +194,146 @@ model Category {
   id          Int       @id @default(autoincrement())
   createdAt   DateTime  @default(now())
   updatedAt   DateTime? @updatedAt
-  name        String
-  description String
-  imageIcon   String
+  name        String    @db.VarChar(50)
+  description String    @db.VarChar(100)
+  imageIcon   String?   @db.VarChar(100)
 
   subCategory      Category[] @relation("category")
   parentCategory   Category?  @relation("category", fields: [parentCategoryId], references: [id])
   parentCategoryId Int?
 
-  products Product[]
+  classifier CategoryClassifier @default(product)
+
+  products CategoryOnProduct[]
+  prices   Price[]
+  entities CategoryOnEntity[]
+
+  @@unique([name, classifier])
+}
+
+model CategoryOnEntity {
+  id         Int      @id @default(autoincrement())
+  entity     Entity   @relation(fields: [entityId], references: [id])
+  entityId   Int
+  category   Category @relation(fields: [categoryId], references: [id])
+  categoryId Int
+  isPrimary  Boolean  @default(false)
 }
 
 model Product {
-  id              Int               @id @default(autoincrement())
-  createdAt       DateTime          @default(now())
-  updatedAt       DateTime?         @updatedAt
-  name            String
-  spec            String
-  condition       ProductCondition? @default(excellent)
-  description     String
-  logoPath        String
-  entity          Entity            @relation(fields: [entityId], references: [id])
-  entityId        Int
-  categories      Category[]
-  prices          Price[]
-  productImages   ProductImage[]
-  pingTuanDetails PingTuanDetail[]
+  id          Int               @id @default(autoincrement())
+  createdAt   DateTime          @default(now())
+  updatedAt   DateTime?         @updatedAt
+  name        String            @db.VarChar(50)
+  spec        String            @db.VarChar(100)
+  condition   ProductCondition? @default(excellent)
+  description String            @db.VarChar(200)
+  logoPath    String            @db.VarChar(100)
+
+  entity               Entity                @relation(fields: [entityId], references: [id])
+  entityId             Int
+  categories           CategoryOnProduct[]
+  prices               Price[]
+  productDigitalAssets ProductDigitalAsset[]
+}
+
+model CategoryOnProduct {
+  id         Int      @id @default(autoincrement())
+  product    Product  @relation(fields: [productId], references: [id])
+  productId  Int
+  category   Category @relation(fields: [categoryId], references: [id])
+  categoryId Int
+  isPrimary  Boolean  @default(false)
 }
 
 model Price {
-  id            Int           @id @default(autoincrement())
-  createdAt     DateTime      @default(now())
-  updatedAt     DateTime?     @updatedAt
-  price         Decimal
-  validFrom     DateTime
-  validTo       DateTime
-  priceCategory PriceCategory @default(normal)
-  product       Product       @relation(fields: [productId], references: [id])
-  productId     Int
+  id         Int       @id @default(autoincrement())
+  createdAt  DateTime  @default(now())
+  updatedAt  DateTime? @updatedAt
+  price      Decimal
+  validFrom  DateTime
+  validTo    DateTime
+  //promotional, normal..etc
+  category   Category  @relation(fields: [categoryId], references: [id])
+  categoryId Int
+  product    Product   @relation(fields: [productId], references: [id])
+  productId  Int
+  isPrimary  Boolean   @default(false)
 }
 
-model ProductImage {
-  id          Int       @id @default(autoincrement())
-  createdAt   DateTime  @default(now())
-  updatedAt   DateTime? @updatedAt
-  name        String
-  description String
-  imagePath   String
-  product     Product   @relation(fields: [productId], references: [id])
-  productId   Int
+model ProductDigitalAsset {
+  id          Int              @id @default(autoincrement())
+  createdAt   DateTime         @default(now())
+  updatedAt   DateTime?        @updatedAt
+  name        String           @db.VarChar(50)
+  description String           @db.VarChar(200)
+  path        String           @db.VarChar(100)
+  type        DigitalAssetType @default(image)
+  isPrimary   Boolean          @default(false)
+
+  product   Product @relation(fields: [productId], references: [id])
+  productId Int
 }
 
 //campaign
 
-model CampaignMedia {
-  id          Int       @id @default(autoincrement())
-  createdAt   DateTime  @default(now())
-  updatedAt   DateTime? @updatedAt
-  name        String
-  description String
-  imagePath   String
-  campaign    Campaign  @relation(fields: [campaignId], references: [id])
-  campaignId  Int
+model CampaignAsset {
+  id          Int              @id @default(autoincrement())
+  createdAt   DateTime         @default(now())
+  updatedAt   DateTime?        @updatedAt
+  name        String           @db.VarChar(50)
+  description String           @db.VarChar(200)
+  path        String           @db.VarChar(100)
+  type        DigitalAssetType @default(image)
+  isPrimary   Boolean          @default(false)
+
+  campaign   Campaign @relation(fields: [campaignId], references: [id])
+  campaignId Int
 }
 
 model Campaign {
-  id                  Int              @id @default(autoincrement())
-  createdAt           DateTime         @default(now())
-  updatedAt           DateTime?        @updatedAt
+  id                  Int             @id @default(autoincrement())
+  createdAt           DateTime        @default(now())
+  updatedAt           DateTime?       @updatedAt
   startedAt           DateTime
   endedAt             DateTime
-  campaignType        CampaignType     @default(PingTuan)
-  visibleToMemberOnly Boolean
-  name                String
-  description         String
-  rule                String
-  imageIcon           String
+  visibleToMemberOnly Boolean         @default(false)
+  name                String          @db.VarChar(100)
+  description         String          @db.VarChar(200)
+  rule                String          @db.VarChar(200)
+  imageIcon           String          @db.VarChar(100)
   ratings             Int
   trendings           Int
   views               Int
   recommends          Int
   shareds             Int
-  media               CampaignMedia[]
-  pingTuanDetails     PingTuanDetail[]
-  member              Member           @relation(fields: [createdById], references: [id])
-  createdById         Int
-  entity              Entity?          @relation(fields: [entityId], references: [id])
-  entityId            Int?
+  media               CampaignAsset[]
+  details             Json
+
+  lauchedByMember   Member  @relation(fields: [lauchedByMemberId], references: [id])
+  lauchedByMemberId Int
+  lauchedByEntity   Entity? @relation(fields: [lauchedByEntityId], references: [id])
+  lauchedByEntityId Int?
 }
 
-model PingTuanDetail {
-  id               Int                @id @default(autoincrement())
-  createdAt        DateTime           @default(now())
-  updatedAt        DateTime?          @updatedAt
-  quantity         Int
-  price            Decimal
-  product          Product            @relation(fields: [productId], references: [id])
-  productId        Int
-  campaign         Campaign           @relation(fields: [campaignId], references: [id])
-  campaignId       Int
-  pingTuanResponse PingTuanResponse[]
-}
+// model Post {
+//   id    Int           @id @default(autoincrement())
+//   title String
+//   tags  TagsOnPosts[]
+// }
 
-model PingTuanResponse {
-  id               Int            @id @default(autoincrement())
-  createdAt        DateTime       @default(now())
-  updatedAt        DateTime?      @updatedAt
-  quantity         Int
-  member           Member         @relation(fields: [memberId], references: [id])
-  memberId         Int
-  pingTuanDetail   PingTuanDetail @relation(fields: [pingTuanDetailId], references: [id])
-  pingTuanDetailId Int
-}
+// model Tag {
+//   id    Int           @id @default(autoincrement())
+//   name  String        @unique
+//   posts TagsOnPosts[]
+// }
 
-model Post {
-  id    Int           @id @default(autoincrement())
-  title String
-  tags  TagsOnPosts[]
-}
+// model TagsOnPosts {
+//   post      Post     @relation(fields: [postId], references: [id])
+//   postId    Int
+//   tag       Tag      @relation(fields: [tagId], references: [id])
+//   tagId     Int
+//   createdAt DateTime @default(now())
 
-model Tag {
-  id    Int           @id @default(autoincrement())
-  name  String        @unique
-  posts TagsOnPosts[]
-}
-
-model TagsOnPosts {
-  post      Post     @relation(fields: [postId], references: [id])
-  postId    Int
-  tag       Tag      @relation(fields: [tagId], references: [id])
-  tagId     Int
-  createdAt DateTime @default(now())
-
-  @@id([postId, tagId])
-}
+//   @@id([postId, tagId])
+// }

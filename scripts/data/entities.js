@@ -15,7 +15,7 @@ export const entities = [
     isVerified: true,
     logoPath: '/qq.svg',
     location: 'longtitude',
-    createdById: 3,
+    createdByMemberId: 3,
   },
 
   // entity 2
@@ -34,7 +34,7 @@ export const entities = [
     isVerified: false,
     logoPath: '/qq2.svg',
     location: 'longtitude',
-    createdById: 3,
+    createdByMemberId: 3,
   },
   // entity 3
   {
@@ -52,7 +52,7 @@ export const entities = [
     isVerified: true,
     logoPath: '/da.svg',
     location: 'longtitude',
-    createdById: 2,
+    createdByMemberId: 2,
   },
 
   {
@@ -70,6 +70,6 @@ export const entities = [
     isVerified: false,
     logoPath: '/lang.svg',
     location: 'longtitude',
-    createdById: 1,
+    createdByMemberId: 1,
   },
 ]

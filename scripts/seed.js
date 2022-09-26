@@ -1,4 +1,5 @@
 import { db } from 'api/src/lib/db'
+import { categories } from './data/categories'
 
 // import { contacts } from './data/contacts'
 import { entities } from './data/entities'
@@ -17,137 +18,143 @@ export default async () => {
       data: entities,
       skipDuplicates: true, // Skip 'Bobo'
     })
+    await db.category.createMany({
+      data: categories,
+      skipDuplicates: true, // Skip 'Bobo'
+    })
     await db.member.create({
       data: {
-        id: 4,
+        id: 5,
         createdAt: new Date(
           'Tue Sep 21 2021 16:16:50 GMT-0400 (Eastern Daylight Time)'
         ),
         updatedAt: new Date(
           'Tue Sep 21 2021 16:16:50 GMT-0400 (Eastern Daylight Time)'
         ),
+        displayId: 'wx55555',
         email: 'Friends@gmail.com',
-        openId: 'openid4',
+        openId: 'openid',
         name: 'Frinds for',
         rewardPoints: 0,
         level: 'Gold',
-        referedById: 1,
+        referedByMemberId: 2,
+        lastEntityId: 1,
         // contacts: {
         //   connect: [{ id: 1 }, { id: 2 }, { id: 3 }],
         // },
       },
     })
 
-    const tags = [
-      { data: { name: 'how-to' } },
-      { data: { name: 'prisma' } },
-      { data: { name: 'redwoodjs' } },
-    ]
+    // const tags = [
+    //   { data: { name: 'how-to' } },
+    //   { data: { name: 'prisma' } },
+    //   { data: { name: 'redwoodjs' } },
+    // ]
 
-    await Promise.all(
-      tags.map(async (tag) => {
-        await db.tag.create(tag)
-      })
-    )
+    // await Promise.all(
+    //   tags.map(async (tag) => {
+    //     await db.tag.create(tag)
+    //   })
+    // )
 
-    await Promise.all([
-      await db.post.create({
-        data: {
-          title: 'How to do nested writes in Prisma many-to-many relations.',
-          tags: {
-            create: [
-              {
-                tag: {
-                  connect: { name: 'redwoodjs' },
-                },
-              },
-              {
-                tag: {
-                  connect: { name: 'prisma' },
-                },
-              },
-              {
-                tag: {
-                  connect: { name: 'how-to' },
-                },
-              },
-            ],
-          },
-        },
-      }),
+    // await Promise.all([
+    //   await db.post.create({
+    //     data: {
+    //       title: 'How to do nested writes in Prisma many-to-many relations.',
+    //       tags: {
+    //         create: [
+    //           {
+    //             tag: {
+    //               connect: { name: 'redwoodjs' },
+    //             },
+    //           },
+    //           {
+    //             tag: {
+    //               connect: { name: 'prisma' },
+    //             },
+    //           },
+    //           {
+    //             tag: {
+    //               connect: { name: 'how-to' },
+    //             },
+    //           },
+    //         ],
+    //       },
+    //     },
+    //   }),
 
-      await db.post.create({
-        data: {
-          title: 'How to launch Prisma Studio.',
-          tags: {
-            create: [
-              {
-                tag: {
-                  connect: { name: 'prisma' },
-                },
-              },
-              {
-                tag: {
-                  connect: { name: 'how-to' },
-                },
-              },
-            ],
-          },
-        },
-      }),
+    //   await db.post.create({
+    //     data: {
+    //       title: 'How to launch Prisma Studio.',
+    //       tags: {
+    //         create: [
+    //           {
+    //             tag: {
+    //               connect: { name: 'prisma' },
+    //             },
+    //           },
+    //           {
+    //             tag: {
+    //               connect: { name: 'how-to' },
+    //             },
+    //           },
+    //         ],
+    //       },
+    //     },
+    //   }),
 
-      await db.post.create({
-        data: {
-          title: 'What is RedwoodJS',
-          tags: {
-            create: [
-              {
-                tag: {
-                  connect: { name: 'redwoodjs' },
-                },
-              },
-            ],
-          },
-        },
-      }),
-    ])
+    //   await db.post.create({
+    //     data: {
+    //       title: 'What is RedwoodJS',
+    //       tags: {
+    //         create: [
+    //           {
+    //             tag: {
+    //               connect: { name: 'redwoodjs' },
+    //             },
+    //           },
+    //         ],
+    //       },
+    //     },
+    //   }),
+    // ])
 
-    await Promise.all([
-      await db.Category.create({
-        data: {
-          name: 'Metal',
-          description: 'Metal',
-          imageIcon: '/icon.svg',
-        },
-      }),
-      await db.Category.create({
-        data: {
-          name: 'Iron',
-          description: 'Metal Iron',
-          imageIcon: '/icon.svg',
-          parentCategory: {
-            connect: { id: 1 },
-          },
-        },
-      }),
-      await db.Category.create({
-        data: {
-          name: 'Steel',
-          description: 'Metal Steel',
-          imageIcon: '/icon.svg',
-          parentCategory: {
-            connect: { id: 2 },
-          },
-        },
-      }),
-      await db.Category.create({
-        data: {
-          name: 'Meat',
-          description: 'Meat',
-          imageIcon: 'meat.svg',
-        },
-      }),
-    ])
+    // await Promise.all([
+    //   await db.Category.create({
+    //     data: {
+    //       name: 'Metal',
+    //       description: 'Metal',
+    //       imageIcon: '/icon.svg',
+    //     },
+    //   }),
+    //   await db.Category.create({
+    //     data: {
+    //       name: 'Iron',
+    //       description: 'Metal Iron',
+    //       imageIcon: '/icon.svg',
+    //       parentCategory: {
+    //         connect: { id: 1 },
+    //       },
+    //     },
+    //   }),
+    //   await db.Category.create({
+    //     data: {
+    //       name: 'Steel',
+    //       description: 'Metal Steel',
+    //       imageIcon: '/icon.svg',
+    //       parentCategory: {
+    //         connect: { id: 2 },
+    //       },
+    //     },
+    //   }),
+    //   await db.Category.create({
+    //     data: {
+    //       name: 'Meat',
+    //       description: 'Meat',
+    //       imageIcon: 'meat.svg',
+    //     },
+    //   }),
+    // ])
 
     await Promise.all([
       await db.Product.create({
@@ -163,10 +170,17 @@ export default async () => {
           categories: {
             create: [
               {
-                name: 'Another new Category',
-                description: 'Another new Category',
-                imageIcon: 'new.svg',
-              },
+                category: {
+                  create:
+                  {
+                    id: 22,
+                    name: 'Another new Category',
+                    description: 'Another new Category',
+                    imageIcon: 'new.svg',
+                    classifier: 'product',
+                  },
+                }
+              }
             ],
           },
           prices: {
@@ -175,22 +189,26 @@ export default async () => {
                 price: 3.16,
                 validFrom: new Date(),
                 validTo: new Date(),
-                priceCategory: 'normal',
+                categoryId: 18,
+                isPrimary: true,
               },
               {
                 price: 3.0,
                 validFrom: new Date(),
                 validTo: new Date(),
-                priceCategory: 'promotion',
+                categoryId: 19,
+                isPrimary: false,
               },
             ],
           },
-          productImages: {
+          productDigitalAssets: {
             create: [
               {
                 name: 'image1',
                 description: 'image desc1',
-                imagePath: '/path.svg',
+                path: '/path.svg',
+                isPrimary: true,
+                type: 'image',
               },
             ],
           },
@@ -207,14 +225,16 @@ export default async () => {
             connect: { id: 1 },
           },
           categories: {
-            connect: [
+            create: [
               {
-                id: 1,
+                categoryId: 1,
+                isPrimary: true,
               },
               {
-                id: 2,
+                categoryId: 2,
+                isPrimary: false,
               },
-            ],
+            ]
           },
           prices: {
             create: [
@@ -222,32 +242,41 @@ export default async () => {
                 price: 4.98,
                 validFrom: new Date(),
                 validTo: new Date(),
-                priceCategory: 'normal',
+                categoryId: 19,
+                isPrimary: false,
               },
               {
-                price: 2.0,
+                price: 6.0,
                 validFrom: new Date(),
                 validTo: new Date(),
-                priceCategory: 'promotion',
+                categoryId: 18,
+                isPrimary: true,
               },
             ],
           },
-          productImages: {
+          productDigitalAssets: {
             create: [
               {
                 name: 'image 2',
                 description: 'image desc1',
-                imagePath: '/path.svg',
+                path: '/path.svg',
+                type: 'image',
+
               },
               {
                 name: 'image 3',
                 description: 'image desc1',
-                imagePath: '/path.svg',
+                path: '/path.svg',
+                type: 'image',
+
               },
               {
                 name: 'image 4',
                 description: 'image desc1',
-                imagePath: '/path.svg',
+                path: '/path.svg',
+                isPrimary: true,
+                type: 'image',
+
               },
             ],
           },
@@ -264,26 +293,26 @@ export default async () => {
         //   name: 'Viola the Magnificent',
         // },
         data: {
-          followedBy: {
-            create: {
-              // followerId_followingId: { followerId: 1, followingId: 2 },
-              follower: {
-                connect: {
-                  id: 2,
-                },
-              },
-              note: 'updated',
-            },
-          },
-          following: {
+          followedMembers: {
             create: {
               // followerId_followingId: { followerId: 1, followingId: 2 },
               following: {
                 connect: {
+                  id: 2,
+                },
+              },
+              note: 'Follower by 2',
+            },
+          },
+          followingMembers: {
+            create: {
+              // followerId_followingId: { followerId: 1, followingId: 2 },
+              follower: {
+                connect: {
                   id: 3,
                 },
               },
-              note: 'following',
+              note: 'following 3',
             },
           },
         },
@@ -310,7 +339,7 @@ export default async () => {
                 isTracked: true,
                 isFavorite: false,
                 isContact: false,
-                assignedMember: {
+                invitedByMember: {
                   connect: { id: 1 },
                 },
               },
@@ -326,7 +355,7 @@ export default async () => {
                 isTracked: true,
                 isFavorite: false,
                 isContact: false,
-                assignedMember: {
+                invitedByMember: {
                   connect: { id: 1 },
                 },
               },
@@ -350,10 +379,17 @@ export default async () => {
           categories: {
             create: [
               {
-                name: 'Another new Category',
-                description: 'Another new Category',
-                imageIcon: 'new.svg',
-              },
+                category: {
+                  create:
+                  {
+                    id: 23,
+                    name: 'Another new Category 2',
+                    description: 'Another new Category',
+                    imageIcon: 'new.svg',
+                    classifier: 'product',
+                  },
+                }
+              }
             ],
           },
           prices: {
@@ -362,22 +398,27 @@ export default async () => {
                 price: 9.16,
                 validFrom: new Date(),
                 validTo: new Date(),
-                priceCategory: 'normal',
+                categoryId: 18,
+                isPrimary: true,
               },
               {
                 price: 1.0,
                 validFrom: new Date(),
                 validTo: new Date(),
-                priceCategory: 'promotion',
+                categoryId: 20,
+                isPrimary: false,
               },
             ],
           },
-          productImages: {
+          productDigitalAssets: {
             create: [
               {
                 name: 'image1',
                 description: 'image desc1',
-                imagePath: '/path.svg',
+                path: '/path.svg',
+                isPrimary: true,
+                type: 'image',
+
               },
             ],
           },
@@ -394,12 +435,14 @@ export default async () => {
             connect: { id: 2 },
           },
           categories: {
-            connect: [
+            create: [
               {
-                id: 3,
+                categoryId: 3,
+                isPrimary: false,
               },
               {
-                id: 2,
+                categoryId: 2,
+                isPrimary: true,
               },
             ],
           },
@@ -409,32 +452,42 @@ export default async () => {
                 price: 4.98,
                 validFrom: new Date(),
                 validTo: new Date(),
-                priceCategory: 'normal',
+                categoryId: 18,
+                isPrimary: true,
+
               },
               {
                 price: 2.0,
                 validFrom: new Date(),
                 validTo: new Date(),
-                priceCategory: 'promotion',
+                categoryId: 19,
+                isPrimary: false,
               },
             ],
           },
-          productImages: {
+          productDigitalAssets: {
             create: [
               {
-                name: 'image 2',
+                name: 'image 22',
                 description: 'image desc1',
-                imagePath: '/path.svg',
+                path: '/path.svg',
+                isPrimary: false,
+                type: 'image',
+
               },
               {
-                name: 'image 3',
+                name: 'image 23',
                 description: 'image desc1',
-                imagePath: '/path.svg',
+                path: '/path.svg',
+                isPrimary: true,
+                type: 'image',
               },
               {
-                name: 'image 4',
+                name: 'image 24',
                 description: 'image desc1',
-                imagePath: '/path.svg',
+                path: '/path.svg',
+                isPrimary: false,
+                type: 'image',
               },
             ],
           },
@@ -451,12 +504,14 @@ export default async () => {
             connect: { id: 2 },
           },
           categories: {
-            connect: [
+            create: [
               {
-                id: 1,
+                categoryId: 11,
+                isPrimary: true,
               },
               {
-                id: 2,
+                categoryId: 12,
+                isPrimary: false,
               },
             ],
           },
@@ -466,32 +521,40 @@ export default async () => {
                 price: 8.98,
                 validFrom: new Date(),
                 validTo: new Date(),
-                priceCategory: 'normal',
+                categoryId: 18,
+                isPrimary: true,
               },
               {
                 price: 1.0,
                 validFrom: new Date(),
                 validTo: new Date(),
-                priceCategory: 'promotion',
+                categoryId: 19,
+                isPrimary: false,
               },
             ],
           },
-          productImages: {
+          productDigitalAssets: {
             create: [
               {
-                name: 'image 3',
+                name: 'image 33',
                 description: 'image desc1',
-                imagePath: '/path.svg',
+                path: '/path.svg',
+                isPrimary: true,
+                type: 'image',
               },
               {
-                name: 'image 5',
+                name: 'image 35',
                 description: 'image desc1',
-                imagePath: '/path.svg',
+                path: '/path.svg',
+                isPrimary: false,
+                type: 'image',
               },
               {
-                name: 'image 8',
+                name: 'image 38',
                 description: 'image desc1',
-                imagePath: '/path.svg',
+                path: '/path.svg',
+                isPrimary: false,
+                type: 'image',
               },
             ],
           },
@@ -506,7 +569,6 @@ export default async () => {
           updatedAt: new Date(),
           startedAt: new Date(),
           endedAt: new Date(),
-          campaignType: 'PingTuan',
           visibleToMemberOnly: true,
           name: 'first ping',
           description: 'great discount on everything',
@@ -517,10 +579,10 @@ export default async () => {
           views: 300,
           recommends: 20,
           shareds: 40,
-          member: {
+          lauchedByMember: {
             connect: { id: 1 },
           },
-          entity: {
+          lauchedByEntity: {
             connect: { id: 1 },
           },
           media: {
@@ -530,118 +592,36 @@ export default async () => {
                 updatedAt: new Date(),
                 name: '1st image',
                 description: 'desc',
-                imagePath: '/path.gif',
+                path: '/path.gif',
+                type: 'image',
+                isPrimary: true,
               },
               {
                 createdAt: new Date(),
                 updatedAt: new Date(),
                 name: '2st image',
                 description: 'desc2',
-                imagePath: '/path.gif',
+                path: '/path.gif',
+                type: 'image',
+                isPrimary: false,
               },
               {
                 createdAt: new Date(),
                 updatedAt: new Date(),
                 name: '3st image',
                 description: 'desc',
-                imagePath: '/path.gif',
+                path: '/path.gif',
+                type: 'image',
+                isPrimary: false,
               },
             ],
           },
-          pingTuanDetails: {
-            create: [
-              {
-                createdAt: new Date(),
-                updatedAt: new Date(),
-                quantity: 8,
-                price: 4.99,
-                product: {
-                  connect: { id: 1 },
-                },
-              },
-              {
-                createdAt: new Date(),
-                updatedAt: new Date(),
-                quantity: 8,
-                price: 4.99,
-                product: {
-                  connect: { id: 2 },
-                },
-              },
-              {
-                createdAt: new Date(),
-                updatedAt: new Date(),
-                quantity: 8,
-                price: 4.99,
-                product: {
-                  connect: { id: 3 },
-                },
-              },
-              {
-                createdAt: new Date(),
-                updatedAt: new Date(),
-                quantity: 8,
-                price: 4.99,
-                product: {
-                  connect: { id: 4 },
-                },
-              },
-              {
-                createdAt: new Date(),
-                updatedAt: new Date(),
-                quantity: 8,
-                price: 4.99,
-                product: {
-                  connect: { id: 5 },
-                },
-              },
-            ],
-          },
+          details: { name: 'name' }
+
         },
       }),
     ])
 
-    await Promise.all([
-      await db.PingTuanResponse.create({
-        data: {
-          createdAt: new Date(),
-          updatedAt: new Date(),
-          quantity: 1,
-          member: {
-            connect: { id: 2 },
-          },
-          pingTuanDetail: {
-            connect: { id: 1 },
-          },
-        },
-      }),
-      await db.PingTuanResponse.create({
-        data: {
-          createdAt: new Date(),
-          updatedAt: new Date(),
-          quantity: 1,
-          member: {
-            connect: { id: 1 },
-          },
-          pingTuanDetail: {
-            connect: { id: 3 },
-          },
-        },
-      }),
-      await db.PingTuanResponse.create({
-        data: {
-          createdAt: new Date(),
-          updatedAt: new Date(),
-          quantity: 2,
-          member: {
-            connect: { id: 3 },
-          },
-          pingTuanDetail: {
-            connect: { id: 4 },
-          },
-        },
-      }),
-    ])
   } catch (error) {
     console.warn('Please define your seed data.')
     console.error(error)
